@@ -51,7 +51,8 @@ export const FramePlayer = ({ frames, fps }:FramePlayerProps) => {
   return(
     <div className="PlayerContainer">
         <div className="FrameContainer">
-          <img className="Frame" src={`/frames/${frame}`} alt='frame'/> 
+          {/* <img className="Frame" src={`/frames/${frame}`} alt='frame'/>  */}
+          <img className="Frame" src={process.env.PUBLIC_URL + `/frames/${frame}` } alt='frame'/> 
         </div>
         <div className="SliderContainer">
           <input 
