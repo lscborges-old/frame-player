@@ -1,24 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {FramePlayer} from './components/FramePlayer'
+import {importAll} from './utils/importAll'
+import './index.css'
+
+const frames = importAll(require.context('../public/frames', false, /\.(png|jpe?g|svg)$/));
+
+const framesArray = Object.keys(frames);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='AppContainer'>
+      <FramePlayer frames = {framesArray} fps = {30}/>
     </div>
   );
 }
