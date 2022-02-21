@@ -9,7 +9,6 @@ export function useFrame({frames, fps}:FramePlayerProps){
 
   const handleChangeSlider = (e:React.ChangeEvent<HTMLInputElement>) => setFrame(frames[Number(e.target.value)]);
 
-
   const handleFrameChange = () => {
     setFrame((frame:string)=>{
       let newIndex = frames.indexOf(frame) + 1;

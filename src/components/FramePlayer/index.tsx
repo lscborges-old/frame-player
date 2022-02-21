@@ -20,6 +20,7 @@ export const FramePlayer = ({ frames, fps }:FramePlayerProps) => {
   const formatTime = (time:number) => time < 10 ? `0${time}` : time;
 
   const interval = useRef<number>(0)
+
   const period = (1/fps)*1000;
 
   const time = useMemo(() => {
@@ -29,7 +30,7 @@ export const FramePlayer = ({ frames, fps }:FramePlayerProps) => {
     newTime = ((1/fps) * (frames.indexOf(frame) + 1))
     return newTime
   }, [frame, fps, isPaused, frames])
-
+  
   const seconds = Math.floor(time) % 60;
   const minutes = Math.floor(time/60) % 60;
   
