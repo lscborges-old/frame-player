@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef} from "react";
+import { useEffect, useRef} from "react";
 import {useFrame} from './hooks/useFrame'
 import './styles.css'
 
@@ -23,13 +23,10 @@ export const FramePlayer = ({ frames, fps }:FramePlayerProps) => {
 
   const period = (1/fps)*1000;
 
-  const time = useMemo(() => {
-    let newTime
-    isPaused && frames.indexOf(frame) === 0 ? 
-    newTime = 0 :
-    newTime = ((1/fps) * (frames.indexOf(frame) + 1))
-    return newTime
-  }, [frame, fps, isPaused, frames])
+  let time; 
+  isPaused && frames.indexOf(frame) === 0 ? 
+  time = 0 :
+  time = ((1/fps) * (frames.indexOf(frame) + 1))
   
   const seconds = Math.floor(time) % 60;
   const minutes = Math.floor(time/60) % 60;
