@@ -12,13 +12,13 @@ export const FramePlayer = ({ frames, fps }:FramePlayerProps) => {
   const interval = useRef<number>(0)
 
   const period = (1/fps)*1000;
+  
+  let time
+  isPaused && frames.indexOf(frame) === 0 ? 
+  time = 0 :
+  time = ((1/fps) * (frames.indexOf(frame) + 1))
 
-  let time 
-  frames.indexOf(frame) === 0 ?
-  time = 0:
-  time = ((1/fps) * (frames.indexOf(frame)+1))
-
-  const seconds = Math.floor(time);
+  const seconds = Math.floor(time) % 60;
   const minutes = Math.floor(time/60) % 60;
 
   const handleTooglePause = () => setIsPaused(pause => !pause)
