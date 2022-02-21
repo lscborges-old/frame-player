@@ -9,7 +9,7 @@ const framesArray = Object.keys(frames);
 function App() {
   return (
     <div className='AppContainer'>
-      <FramePlayer frames = {framesArray} fps = {20}/>
+      <FramePlayer frames = {framesArray} fps = {5}/>
     </div>
   );
 }
