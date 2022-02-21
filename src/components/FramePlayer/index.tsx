@@ -1,32 +1,38 @@
-import React, {useState, useEffect, useRef} from "react";
+import { useEffect, useMemo, useRef} from "react";
+import {useFrame} from './hooks/useFrame'
 import './styles.css'
 
-type FramePlayerProps = {
+export type FramePlayerProps = {
   frames: string[],
   fps: number
 }
 
 export const FramePlayer = ({ frames, fps }:FramePlayerProps) => {
-  const [frame, setFrame] = useState<string>(frames[0])
-  const [isPaused, setIsPaused] = useState(true)
-  const interval = useRef<number>(0)
-
-  const period = (1/fps)*1000;
-  
-  let time
-  isPaused && frames.indexOf(frame) === 0 ? 
-  time = 0 :
-  time = ((1/fps) * (frames.indexOf(frame) + 1))
-
-  const seconds = Math.floor(time) % 60;
-  const minutes = Math.floor(time/60) % 60;
-
-  const handleTooglePause = () => setIsPaused(pause => !pause)
-
-  const handleChangeSlider = (e:React.ChangeEvent<HTMLInputElement>) => setFrame(frames[Number(e.target.value)]);
+  const {
+    isPaused,
+    frame,
+    handleChangeSlider,
+    handleFrameChange,
+    handleTooglePause,
+    setIsPaused
+  } = useFrame({ frames, fps });
 
   const formatTime = (time:number) => time < 10 ? `0${time}` : time;
 
+  const interval = useRef<number>(0)
+  const period = (1/fps)*1000;
+
+  const time = useMemo(() => {
+    let newTime
+    isPaused && frames.indexOf(frame) === 0 ? 
+    newTime = 0 :
+    newTime = ((1/fps) * (frames.indexOf(frame) + 1))
+    return newTime
+  }, [frame, fps, isPaused, frames])
+
+  const seconds = Math.floor(time) % 60;
+  const minutes = Math.floor(time/60) % 60;
+  
   useEffect(()=>{
     if(isPaused){
       clearInterval(interval.current);
@@ -38,17 +44,12 @@ export const FramePlayer = ({ frames, fps }:FramePlayerProps) => {
     }
 
     interval.current = window.setInterval(()=>{
-      setFrame((frame:string)=>{
-        let newIndex = frames.indexOf(frame) + 1;
-        return frames[newIndex]
-      })
+      handleFrameChange();
     },period)
   
     return () => clearInterval(interval.current)
 
-  },[isPaused, frames, frame, period])
-
-  console.log(frame);
+  },[isPaused, frames, frame, period, handleFrameChange, setIsPaused])
 
   return(
     <div className="PlayerContainer">
